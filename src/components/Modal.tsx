@@ -57,10 +57,10 @@ export default function Modal() {
       >
         <RxCross1 className="text-5xl" />
       </button>
-      <div className="max-h-[85vh] overflow-hidden">
+      <div className="max-h-[80vh]">
         <img
           className="h-full w-full"
-          src={selectedPhoto.urls.regular}
+          src={selectedPhoto.urls.small}
           alt={selectedPhoto.description}
         />
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppContext } from "../Context/Context";
 import { HiOutlineFaceSmile } from "react-icons/hi2";
 import { getPostsPaginated } from "../hooks/usePhotos";
@@ -13,6 +13,7 @@ const History: React.FC = () => {
   const { queryHistory, handleDeleteFromHistory } = useAppContext();
   const [selectedCategory, setSelectedCategory] = useState("");
   const categories = [...new Set(queryHistory)].reverse();
+  const [rawData, setRawData] = useState<any[]>([]);
 
   const {
     data,
@@ -21,12 +22,19 @@ const History: React.FC = () => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery<any, any, any>({
+  } = useInfiniteQuery({
     queryKey: ["posts", selectedCategory],
     initialPageParam: 1,
     getNextPageParam: (prevData: any) => prevData.nextPage,
-    queryFn: ({ pageParam }) => getPostsPaginated(1, selectedCategory),
+    queryFn: ({ pageParam = 1 }) =>
+      getPostsPaginated(pageParam, selectedCategory),
   });
+
+  useEffect(() => {
+    if (data) {
+      setRawData([...data.pages.flatMap((el) => el.posts)]);
+    }
+  }, [isLoading, data]);
 
   if (isLoading) {
     return (
@@ -41,7 +49,7 @@ const History: React.FC = () => {
     return <Error />;
   }
 
-  const rawData = [...data.pages.flatMap((el: any) => el.posts)];
+  // const rawData = [...data.pages.flatMap((el) => el.posts)];
   const finalData = [...rawData.flatMap((el) => el.results)];
 
   const { col1, col2, col3 } = getColumns(finalData);

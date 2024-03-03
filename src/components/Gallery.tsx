@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Photo from "./Photo";
 import { getPostsPaginated } from "../hooks/usePhotos";
 import { useAppContext } from "../Context/Context";
@@ -9,6 +9,7 @@ import Loading from "./Loading";
 
 const Gallery: React.FC = () => {
   const { queryValue } = useAppContext();
+  const [rawData, setRawData] = useState<any[]>([]);
 
   const {
     data,
@@ -17,12 +18,18 @@ const Gallery: React.FC = () => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery<any, any, any>({
+  } = useInfiniteQuery({
     queryKey: ["posts", "infinite"],
     initialPageParam: 1,
     getNextPageParam: (prevData: any) => prevData.nextPage,
-    queryFn: ({ pageParam }) => getPostsPaginated(1, queryValue),
+    queryFn: ({ pageParam = 1 }) => getPostsPaginated(pageParam, queryValue),
   });
+
+  useEffect(() => {
+    if (data) {
+      setRawData([...data.pages.flatMap((el) => el.posts)]);
+    }
+  }, [isLoading, data]);
 
   if (isLoading) {
     return <Loading />;
@@ -32,7 +39,6 @@ const Gallery: React.FC = () => {
     return <Error />;
   }
 
-  const rawData = [...data.pages.flatMap((el: any) => el.posts)];
   const finalData = [...rawData.flatMap((el) => el.results)];
 
   const { col1, col2, col3 } = getColumns(finalData);
