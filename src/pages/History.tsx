@@ -57,16 +57,16 @@ const History: React.FC = () => {
   return (
     <>
       {categories.length === 0 ? (
-        <div className="flex justify-center items-center">
-          <p className="text-3xl font-semibold pt-10 flex items-center gap-4">
+        <div className="flex justify-center items-center ">
+          <p className="text-3xl font-semibold p-10 flex items-center gap-4 min-w-[25rem]">
             <HiOutlineFaceSmile className="w-20 h-20 text-to items-start gap-4" />
             Start by searching for a photo, Have fun!
           </p>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center gap-20">
-          <div className="flex flex-col gap-10 justify-center items-center ">
-            <ul className="flex justify-center gap-10 max-w-[80%] flex-wrap">
+          <div className="flex flex-col max-w-[80%] gap-10 justify-center items-center ">
+            <ul className="flex justify-center gap-10   flex-wrap">
               {categories.map((query: any) => (
                 <div
                   className="flex"

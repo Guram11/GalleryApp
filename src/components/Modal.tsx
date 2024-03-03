@@ -47,7 +47,7 @@ export default function Modal() {
     <div
       className={
         modalOpen
-          ? "fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 pt-20 max-w-[95vw] bg-white rounded-lg px-24 shadow-modal z-50 transition-all duration-500 max-[600px]:px-4"
+          ? "fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 pt-16 max-w-[95vw] bg-white rounded-lg px-24 shadow-modal z-50 transition-all duration-500 max-[600px]:px-4"
           : "invisible opacity-0"
       }
     >
@@ -57,9 +57,9 @@ export default function Modal() {
       >
         <RxCross1 className="text-5xl" />
       </button>
-      <div className="max-h-[80vh]">
+      <div>
         <img
-          className="h-full w-full"
+          // className="h-full w-full"
           src={selectedPhoto.urls.small}
           alt={selectedPhoto.description}
         />
