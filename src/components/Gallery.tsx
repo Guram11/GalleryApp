@@ -17,11 +17,11 @@ const Gallery: React.FC = () => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<any, any, any>({
     queryKey: ["posts", "infinite"],
     initialPageParam: 1,
     getNextPageParam: (prevData: any) => prevData.nextPage,
-    queryFn: ({ pageParam = 1 }) => getPostsPaginated(pageParam, queryValue),
+    queryFn: ({ pageParam }) => getPostsPaginated(1, queryValue),
   });
 
   if (isLoading) {
@@ -32,7 +32,7 @@ const Gallery: React.FC = () => {
     return <Error />;
   }
 
-  const rawData = [...data.pages.flatMap((el) => el.posts)];
+  const rawData = [...data.pages.flatMap((el: any) => el.posts)];
   const finalData = [...rawData.flatMap((el) => el.results)];
 
   const { col1, col2, col3 } = getColumns(finalData);
